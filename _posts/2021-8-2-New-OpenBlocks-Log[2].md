@@ -46,7 +46,7 @@ Now, for the most exciting part, **modules**. Modular is the SPECIAL part of ope
 
 ## Story of failure
 
-<img align="left" src="/assets/img/stupid-openblocks-bug.png" height="300" style="margin-right: 16px"/>
+<img align="left" src="/assets/img/stupid-openblocks-bug.png" alt="the stupid openblocks bug" height="300" style="margin-right: 16px"/>
 
 People might've been asking is "modules" is the part that we got into trouble with on developing openblocks? I'd say kinda, we (to that I mean ME) got into trouble with the module storage system, which might sound stupid, but back then I was very stupid in developing OpenBlocks. On the openblocks time, I was very stupid, I didn't test my codes, not a single one, all I did was just leave that critical error alone and go ahead develop other stuff. But little did I know, that critical error is very annoying to find + since I can't test other stuff that I've spent my time on instead of debugging, there must be bugs there! aaa.
 
