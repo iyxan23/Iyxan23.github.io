@@ -59,8 +59,6 @@ We can then retrieve the central directory start position field as a 4-byte int 
 
 Which we get `0x50` or `80` relative to the start of the file.
 
-#### Central directory
-
 Setting our pointer to `0x50`, it looks like it pointed to the start of the central directory; there are the bytes `0x50 0x4b 0x01 0x02` (which is a central directory signature)! awesome!
 
 <img src="/assets/zipalign-java/original-zip-file-cd-start.png"/>
@@ -71,29 +69,28 @@ Here in the central directory, we're going to retrieve the compression method th
 
 We get the value of `0x0000`, which means that it's uncompressed!
 
-I mean, we can already clearly see that this file is clearly uncompressed, given the fact that we can see the content of the file just by viewing the ascii representation lol.
+I mean, we can already see that this file is clearly uncompressed, given the fact that we can see the content of the file just by viewing the ascii representation lol.
 
 <img src="/assets/zipalign-java/original-zip-file-ascii-file-content.png"/>
 
 Alright, since we know that this file is uncompressed, we're going to need to align it!
 
-We must first understand what aligning a file entry in a zip file means.
+So, how do we align a file entry? Well, it's pretty simple.
 
-> todo
+All that we need to do is to make the start of the file content to align to 4-byte boundaries.
 
-So, we retrieve the position of where the file starts, which is `+0x1e + filename_length + extrafield_length`.
-<img src="todo"/>
+See this, the start of the content `Hello world :)` is not aligned to 4-byte boundaries highlighted by the white lines.
 
-Filename length is at `+0x1a`, and extra field length is at `+01c`
-<img src="todo"/>
+<img src="/assets/zipalign-java/original-zip-file-unaligned.png"/>
 
-Those values yields the file offset of `+0x1d + 7 + 28` at `0x41` or `65`. Which points exactly to the start of the file! ;)
-<img src="todo"/>
+The trick here is that each local file header entries have a special field called the "extra field". This field is usually used to store extra information about a file or for a proprietary extension.
 
-Here we determine if this file needs to be aligned, which it does: `65 mod 4 = 1`!
+<img src="/assets/zip-format-extra-field.png"/>
+<img src="/assets/zip-format-extra-field-show.png"/>
 
-It appears that it's off by three bytes to the next 4 byte boundary! so we increase the extra field length by `3` so it's `0x1f` or `31` and add 3 null bytes to the extra field.
-<img src="todo"/>
+We simply extend the extra field just at the right length so that the file content that follows it aligns to 4-byte boundaries!
+
+<img src="/assets/original-zip-file-aligned-show.png"/>
 
 And we're done!.. on the easy part..
 
