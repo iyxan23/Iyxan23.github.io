@@ -34,7 +34,7 @@ Then, there are the **central directory headers**. They are placed right after t
 
 And at the end, there is the **end of central directory record**, usually shortened as "the EOCD". It's placed at the end of the file right after the final central directory header. It starts with the signature of `0x06054b50` and follows a list of bytes that contains information about the entries, where the central directory starts, comments, and many more.
 
-<img alt="end of central directory record" src="https://users.cs.jmu.edu/buchhofp/forensics/formats/pkzip-images/central-file-header.png"/>
+<img alt="end of central directory record" src="https://users.cs.jmu.edu/buchhofp/forensics/formats/pkzip-images/end-of-central-directory-record.png"/>
 <p style="font-size: 12px;" align="center">By Florian Buchholz - <a href="https://users.cs.jmu.edu/buchhofp/forensics/formats/pkzip.html">https://users.cs.jmu.edu/buchhofp/forensics/formats/pkzip.html</a></p>
 
 
@@ -45,11 +45,11 @@ Pretty much all that zipalign does here is that it pads the extra field with nul
 Suppose I have a regular zip file with the file `my_file` with the content `Hello world :)`:
 <img alt="hex content of a simple zip file" src="/assets/zipalign-java/original-zip-file.png"/>
 
-Let's walk through and classify which parts are which
+Let's walk through and classify which parts are which.
 
-#### End of central directory record
+#### EOCD
 
-We know that the EOCD is always at the end, and also, we can see the start of the section just by its signature (which is `0x06054b50`). Signatures are basically IDs that tells what section starts!
+We know that the **EOCD** is always at the end, and also, we can see the start of the section just by its signature (which is `0x06054b50`). Signatures are basically IDs that tells what section starts!
 
 <img src="/assets/zipalign-java/original-zip-file-eocd.png"/>
 
@@ -63,7 +63,9 @@ Setting our pointer to `0x50`, it looks like it pointed to the start of the cent
 
 <img src="/assets/zipalign-java/original-zip-file-cd-start.png"/>
 
-Here in the central directory, we're going to retrieve the compression method that is used to compress this file. If it's uncompressed, we'll then continue to align this file. The compression method field is a 2-byte number that lies at offset `+0xa` relative to the start of central directory.
+#### Central Directory
+
+Here in the **central directory**, we're going to retrieve the compression method that is used to compress this file. If it's uncompressed, we'll then continue to align this file. The compression method field is a 2-byte number that lies at offset `+0xa` relative to the start of central directory.
 
 <img src="/assets/zipalign-java/original-zip-file-cd-compression-method.png"/>
 
@@ -75,9 +77,15 @@ I mean, we can already see that this file is clearly uncompressed, given the fac
 
 Alright, since we know that this file is uncompressed, we're going to need to align it!
 
-So, how do we align a file entry? Well, it's pretty simple.
+To align a file entry, we're going to need to retrieve the location of where the file entry starts. This field is located at `+0x2a` or `+42` in decimal relative to the start of the central directory.
 
-All that we need to do is to make the start of the file content to align to 4-byte boundaries.
+<img src="/assets/zipalign-java/original-zip-file-fh-offset.png"/>
+
+With this, we know that the file entry is located on `0x00000000` relative to the file. (I mean we can already see it lol, but it'll point to file headers of zip files with multiple files)
+
+#### Local File Header
+
+Alright, let's get alinging it. All that we need to do is to make the start of the file content to align to 4-byte boundaries.
 
 See this, the start of the content `Hello world :)` is not aligned to 4-byte boundaries highlighted by the white lines.
 
@@ -94,3 +102,22 @@ We simply extend the extra field just at the right length so that the file conte
 
 And we're done!.. on the easy part..
 
+Remember those offset fields in EOCD and central directory? They got changed because we've completely shifted the entire file starting at the start of the first file content. We're going to need to adjust them to point to the correct offsets so they are valid.
+
+First is the central directory, we loop through them and modify the field which points to the file header that it's referencing. The field is located `+0x2a` or `42` in decimal relative to the start of the central directory with the length of a 4-byte int.
+
+<img src="/assets/img/zipalign-java/aligned-zip-central-directory-file-offset.png"/>
+
+Well, here we don't need to modify it because the shift happens after the file offset. In situations where you have multiple files, this is needed to be done.
+
+And the EOCD, it has the field which stores the start of the central directory. It is a 4-byte int located `+0x10` or 17 in decimal relative to the start of the central directory header.
+
+<img src="/assets/img/zipalign-java/aligned-zip-eocd-cd-offset.png"/>
+
+We modify it to point to the start of central directory.
+
+<img src="/assets/img/zipalign-java/aligned-zip-eocd-cd-modify-offset.png"/>
+
+And we're done! yay! that's pretty much all that needs to be done.
+
+[You can head on to zipalign-java's source](https://github.com/Iyxan23/zipalign-java/blob/main/src/main/java/com/iyxan23/zipalignjava/ZipAlign.java#L80) to kind of compare this blog side-by-side and try to understand them better because I'm bad at words.
