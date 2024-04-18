@@ -1,10 +1,10 @@
-----
+---
 title: My Newbie Experience with Neovim
 author: NurIhsan
 date: 2024-04-18 21:17:32 +0700
 tags: vim journal for-fun
-categories: Journals
-----
+category: Journals
+---
 
 Hi all! Welcome to another blog post that I wrote. Today I’ll be sharing a document I recently wrote on my journal. Reading it over, I feel like it could be published as a blog, so I did.
 
