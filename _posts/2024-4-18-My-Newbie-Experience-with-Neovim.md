@@ -30,7 +30,7 @@ I had always wanted to migrate to nvim but it has a large learning curve, I need
 
 Now I had discovered quite a lot, I pretty much spent this whole day dedicating to migrating myself to neovim, and it’s probably the coolest and the best thing I did.
 
-# Integration with Lua
+## Integration with Lua
 
 In Vim, when you want to create a globally-scoped variable, you use a `g:` prefix before the variable name. So `set g:my_var = "hello"`.
 
@@ -44,7 +44,7 @@ I also learned that lua modules (well atleast how neovim did it) are managed thr
 
 Exporting things also couldn’t be easier, you just do a top-level return statemet inside the code.
 
-# Plugin System
+## Plugin System
 
 How neovim works is very basic, it just runs some lua file (I’m not sure which or how many exactly) contained within the `~/.config/nvim` directory.
 
@@ -75,7 +75,7 @@ It’s that easy!
 
 If you have something that might need to be wired into AstroNvim, you might need to do quite some trickery to do it.
 
-# Building Blocks of Vim: `Buffer`s & `AutoCmd`s
+## Building Blocks of Vim: `Buffer`s & `AutoCmd`s
 
 I learned these through trial and errors 🙃
 
@@ -113,7 +113,7 @@ Reading the help manual, I had just realised that `autocmd`s is the literal buil
 
 It has events like `BufFileNew`, `BufNew`, `CmdlineEnter`, and even `CursorHold`, proving the fact that everything is done by autocmds! Isn’t that really cool!?
 
-# Realising I have an old version of AstroNvim
+## Realising I have an old version of AstroNvim
 
 I tried to follow a guide on neovim’s website, only to get errors on my screen. It weirdly didn’t work, considering that it came from neovim’s website directly, and it gave a cryptic error that I cannot understand.
 
@@ -133,7 +133,7 @@ I searched about migrating to v4, [read the page](https://docs.astronvim.com/con
 
 But before we get into what that change is, we must understand how astro is installed.
 
-## How AstroNvim v3 is Installed
+### How AstroNvim v3 is Installed
 
 Neovim reads files in `~/.config/nvim/` and just executes them.
 
@@ -178,7 +178,7 @@ You can create a new tab, open a new terminal, modify the buffer, even do some n
 
 The same thing applies to `options.lua`, but you put configuration that you want to apply to astro-managed plugins. You get the gist.
 
-## The Architectural Change of v4
+### The Architectural Change of v4
 
 The problem is that, since AstroNvim is installed this way, it is arguably somehow unmodular. So the AstroNvim thought of separating these into its own plugins, with the name `astro` prefixed to them!
 
@@ -199,7 +199,7 @@ What I did was I migrated them, and got it up and running!
 
 [Here’s my v4 config.](https://github.com/iyxan23/astronvim-user) And for comparison, [here’s my v3 config](https://github.com/iyxan23/astronvim-conf).
 
-# Favourite Things on AstroNvim
+## Favourite Things on AstroNvim
 
 Things that I absolutely LOVE using astro:
 
