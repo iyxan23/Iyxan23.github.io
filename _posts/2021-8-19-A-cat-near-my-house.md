@@ -28,6 +28,7 @@ But then that cat came to our house again, not with her kittens. I think she's h
 
 I've taken a picture of her eating the cat food as you can see here:
 
-<img src="/assets/img/cat-near-my-house/mothercat-eat.jpg"/><img src="/assets/img/cat-near-my-house/mothercat-stand.jpg"/>
+![The cat eating](/assets/img/cat-near-my-house/mothercat-eat.jpg)
+![The cat standing](/assets/img/cat-near-my-house/mothercat-stand.jpg)
 
 Hope you have a nice day! seeya!

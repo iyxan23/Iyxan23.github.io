@@ -17,7 +17,7 @@ I'm a bit sorry because I didn't update you guys right away when I discovered _s
 # Libraries
 As I've said in the previous log, I was planning to create a some kind of library mechanism so people could add libraries to reduce writing stuff from scratch and also be lazy like me. If you don't know, library is basically a piece of code that can be bundled with your app to make it's developer's life much easier, It's like having a helper. Libraries often includes functions whose other people might not be able to create or implement their own, so they chose to implement this library inside their app to use those features without knowing how they work (and maintaining them), simply a black box.
 
-<img src="/assets/img/library-diagram.svg" style="background: white;">
+<img src="/assets/img/library-diagram.svg" style="background: white;" alt="Library diagram">
 
 <p style="font-size: 12px;" align="center">Diagram of how a library is being used. By Kővágó Zoltán (DirtY iCE) - self-made, based on file:Libs_dia.png, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=2985841</p>
 
@@ -25,7 +25,7 @@ Android libraries are usually packaged in the `.aar` format (Android Archive), t
 
 Since an `.aar` file is just a zip file, we can use `ZipInputStream` to extract files in it, but wait, what is the standard? what file structure is used in this aar file? which files are which? for that, you can take a look at it's anatomy [here](https://developer.android.com/studio/projects/android-library.html#aar-contents). Since we wanted a simple, proof-of-concept library implementation, we're just going to take it's resources (`/res`) and it's jarfile (`/classes.jar`).
 
-<img src="/assets/img/aar-what-were-going-to-use.png"/>
+![What we're going to use](/assets/img/aar-what-were-going-to-use.png)
 
 But wait, the jarfile `classes.jar` is in java bytecode! "why is it in java bytecode when we need a dalvik one to be able to add it within the app?" It's because we need the java bytecode for the compiler to recognize which function / field / class is used by a java code and since it's a java bytecode, we can dex it into dexfile when we needed it (we can't transform back a dalvik bytecode into java bytecode).
 
@@ -72,7 +72,7 @@ This idea might not seem interesting at all. But it's basically a way to communi
 
 You might be asking on how can the modules communicate with the app? is it through an API? no, we use the same communication method used to communicate to other modules, but use it to the app! cool!
 
-<img src="/assets/img/communication.svg" style="background: white;"/>
+<img src="/assets/img/communication.svg" style="background: white;" alt="communication"/>
 
 Getting back to extensibility, Even though I have a different approach in doing this modular thing, I don't want to have the same thing where you can only extend a limited amount of components. I want people to extend every part of the app. So, what I have in mind is that the app will be completely feature-less! (except the module system part ofc). Every features, I mean EVERY FEATURES is going to be implemented by modules. I'm planning to have modules depend on other modules so we can have "replacability" (I don't even know if that's a word) for modules, where people can replace an other module implementation.
 
@@ -80,7 +80,7 @@ Getting back to extensibility, Even though I have a different approach in doing 
 
 Implementing modules is absolutely not hard at all, the hardest part is to figure out how to communicate from / to it. How the new openblocks modules work is very simple, it's simply a dexed code with reference to a library that's being shared with the module and the system, it will get loaded using the class `DexClassLoader` and be executed through that shared library.
 
-<img src="/assets/img/module-loader-code.png"/>
+<img src="/assets/img/module-loader-code.png" alt="Module loader code"/>
 
 # End
 
