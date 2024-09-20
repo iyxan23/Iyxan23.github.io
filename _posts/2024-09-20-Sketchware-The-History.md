@@ -1,5 +1,6 @@
 ---
 title: Sketchware, The History and How I Got Into it
+author: NurIhsan
 date: 2024-09-20 17:40:12 +0700
 categories: Journals
 tags: [sketchware, story, journal]
