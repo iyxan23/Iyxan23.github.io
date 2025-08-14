@@ -1,5 +1,5 @@
 ---
-title: Work is like Gaming
+title: The Parallel Between Work and Game
 author: NurIhsan
 date: 2025-01-20 20:57:48 +0700
 categories: Thoughts
