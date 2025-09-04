@@ -4,7 +4,8 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-Hi all! I'm NurIhsan, or more commonly known throughout the internet (and communities) as iyxan23!
+Hi all! I'm Nur Ihsan Al Ghifari, people IRL call me Ihsan but I'm more commonly known throughout the internet
+(and communities) as iyxan23!
 
 I'm a super passionate and very curious coder ever since I touched my first ever piece of technology, it was
 when I was about in my 3rd year of my elementary school (which is about 2017).
@@ -42,4 +43,4 @@ Until everything changed as I enter The Vocational High School of IDN Boarding S
 view about life. It made me connect with a lot of really awesome people, went overseas for the first time
 (to malaysia), and probably is the peak of my programming life as a teen. (new articles incoming)
 
-I think that's enough introduction to me, I think I talked too much hehe. Thanks for reading!
+Thanks for reading!
